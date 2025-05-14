@@ -1,9 +1,25 @@
 {
   "name": "devloy",
-  "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "dev:frontend": "bun --filter frontend run dev",
+    "dev:backend": "bun --filter backend run dev",
+    "dev": "bun run dev:frontend & bun run dev:backend",
+    "build:frontend": "bun --filter frontend run build",
+    "build:backend": "bun --filter backend run build",
+    "lint": "bun -d eslint .",
+    "format": "bun -d prettier --write ."
+  },
   "workspaces": [
-    "frontend/*",
-    "backend/*"
-  ]
+    "apps/*"
+  ],
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
+    "@typescript-eslint/parser": "^8.32.1",
+    "eslint": "^9.26.0",
+    "eslint-config-next": "^15.3.2",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.0",
+    "prettier": "^3.5.3"
+  }
 }
