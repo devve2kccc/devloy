@@ -1,0 +1,24 @@
+{
+  "name": "server",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bun run --hot src/index.ts --hostname 0.0.0.0",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@repo/db": "*",
+    "@hono/zod-validator": "^0.5.0",
+    "better-auth": "^1.2.8",
+    "hono": "^4.7.9",
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "*",
+    "@repo/typescript-config": "*",
+    "eslint": "^9.27.0",
+    "@types/bun": "latest",
+    "typescript": "5.8.2"
+  }
+}

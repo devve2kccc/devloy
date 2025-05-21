@@ -4,7 +4,7 @@
   "tasks": {
     "build": {
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "^db:generate"],
       "outputs": [
         "build/**",
         ".vercel/**",
@@ -24,9 +24,19 @@
       "dependsOn": ["^build", "^check-types"]
     },
     "dev": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "^db:generate"],
       "cache": false,
       "persistent": true
+    },
+    "db:generate": {
+      "cache": false
+    },
+    "db:migrate": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:deploy": {
+      "cache": false
     }
   }
 }
