@@ -1,9 +1,7 @@
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { getProjects } from "@/features/projects/actions/projects";
 import ProjectsHeader from "@/features/projects/components/project-header";
 import ProjectsGrid from "@/features/projects/components/projects-grid";
-import { useNewProject } from "@/features/projects/hooks/use-new-project";
-import { getProjects } from "@/features/projects/services/getProjects";
 import {
   QueryClient,
   HydrationBoundary,

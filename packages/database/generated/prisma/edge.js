@@ -224,7 +224,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/alvarofernandes/Documents/dev/devloy_test/packages/database/generated/prisma",
+      "value": "/Users/alvarofernandes/Documents/dev/devloy/packages/database/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -238,7 +238,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/alvarofernandes/Documents/dev/devloy_test/packages/database/prisma/schema.prisma",
+    "sourceFilePath": "/Users/alvarofernandes/Documents/dev/devloy/packages/database/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -252,6 +252,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {

@@ -12,6 +12,7 @@
     "zod-prisma-types": "^3.2.4"
   },
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./generated/zod": "./prisma/generated/zod/index.ts"
   }
 }

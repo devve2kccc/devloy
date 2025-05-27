@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -6,13 +5,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
 import { useNewProject } from "../hooks/use-new-project";
 import { NewProjectForm } from "./new-project-form";
-import { ProjectSchema } from "@db/prisma/generated/zod";
+import { ProjectSchema } from "@repo/db/generated/zod";
 import { z } from "zod";
-import { useNewProjectMutation } from "@/features/projects/services/newProject";
+import { useNewProjectMutation } from "../hooks/newProject";
 
 const ProjectType = ProjectSchema.pick({
   name: true,

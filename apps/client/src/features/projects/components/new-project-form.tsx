@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { ProjectSchema } from "@db/prisma/generated/zod";
+import { ProjectSchema } from "@repo/db/generated/zod";
 
 const ProjectType = ProjectSchema.pick({
   name: true,

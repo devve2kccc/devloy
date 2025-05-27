@@ -10,6 +10,8 @@ const app = new Hono<AppContext>()
   .get("/", async (c) => {
     const user = c.get("user");
 
+    console.log(user);
+    
     if (!user) return c.body(null, 401);
 
     const data = await prisma.project.findMany({
