@@ -11,8 +11,8 @@ const app = new Hono<AppContext>()
     const user = c.get("user");
 
     console.log(user);
-    
-    if (!user) return c.body(null, 401);
+
+    if (!user) return c.json({ error: "Unauthorized" }, 401);
 
     const data = await prisma.project.findMany({
       where: {
@@ -22,6 +22,45 @@ const app = new Hono<AppContext>()
 
     return c.json(data);
   })
+  .get(
+    "/:projectId/environments",
+    zValidator("param", z.object({ projectId: z.string() })),
+    async (c) => {
+      const user = c.get("user");
+      const { projectId } = c.req.valid("param");
+
+      if (!user) return c.json({ error: "Unauthorized" }, 401);
+
+      try {
+        const project = await prisma.project.findFirst({
+          where: {
+            id: projectId,
+            userId: user.id,
+          },
+        });
+
+        if (!project) {
+          return c.json({ error: "Project not found" }, 404);
+        }
+
+        const environments = await prisma.environment.findMany({
+          where: {
+            projectId: projectId,
+          },
+          orderBy: {
+            type: "asc",
+          },
+        });
+
+        return c.json(environments);
+      } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          return c.json({ error: "Database error" }, 500);
+        }
+        throw error;
+      }
+    }
+  )
   .post(
     "/",
     zValidator("json", ProjectSchema.pick({ name: true, description: true })),
@@ -29,7 +68,7 @@ const app = new Hono<AppContext>()
       const user = c.get("user");
       const data = c.req.valid("json");
 
-      if (!user) return c.body(null, 401);
+      if (!user) return c.json({ error: "Unauthorized" }, 401);
 
       const response = await prisma.project.create({
         data: {
@@ -53,7 +92,7 @@ const app = new Hono<AppContext>()
       const data = c.req.valid("json");
       const { id } = c.req.valid("param");
 
-      if (!user) return c.body(null, 401);
+      if (!user) return c.json({ error: "Unauthorized" }, 401);
 
       try {
         const response = await prisma.project.update({
@@ -82,7 +121,7 @@ const app = new Hono<AppContext>()
       const user = c.get("user");
       const { id } = c.req.valid("param");
 
-      if (!user) return c.body(null, 401);
+      if (!user) return c.json({ error: "Unauthorized" }, 401);
 
       try {
         const response = await prisma.project.delete({
