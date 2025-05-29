@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { getProjectsEnvironments } from "@/features/projects/actions/projects";
 import EnvironmentSelect from "@/features/projects/components/project-env-selector";
 import {
   dehydrate,
@@ -17,7 +18,7 @@ export default async function Page({
 
   await queryClient.prefetchQuery({
     queryKey: ["project-environments", projectId],
-    queryFn: () => getProjectEnvironments(projectId),
+    queryFn: () => getProjectsEnvironments(projectId),
   });
 
   return (

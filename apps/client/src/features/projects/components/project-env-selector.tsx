@@ -1,3 +1,4 @@
+"use client";
 import {
   Select,
   SelectContent,
@@ -5,20 +6,35 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  useEnvironmentSelection,
+  useEnvironmentStore,
+} from "../states/environment";
+import { useEffect } from "react";
 
 interface EnvironmentSelect {
   projectId: string;
 }
 export default function EnvironmentSelect({ projectId }: EnvironmentSelect) {
+  const { environments, selectedEnvironment, setSelectedEnvironment } =
+    useEnvironmentSelection();
+
+  // Set project ID when component mounts
+  useEffect(() => {
+    useEnvironmentStore.getState().setProjectId(projectId);
+  }, [projectId]);
+
   return (
-    <Select>
+    <Select value={selectedEnvironment} onValueChange={setSelectedEnvironment}>
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Theme" />
+        <SelectValue placeholder="Select environment" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="light">Light</SelectItem>
-        <SelectItem value="dark">Dark</SelectItem>
-        <SelectItem value="system">System</SelectItem>
+        {environments?.map((env) => (
+          <SelectItem key={env.id} value={env.id}>
+            {env.type}
+          </SelectItem>
+        ))}
       </SelectContent>
     </Select>
   );

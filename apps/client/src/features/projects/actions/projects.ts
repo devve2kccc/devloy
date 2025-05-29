@@ -26,7 +26,7 @@ export const getProjects = async () => {
     throw new Error("Failed to fetch projects!");
   }
 
-  const data = (await response.json()) as ProjectType;
+  const data = await response.json();
 
   if (!data) return [];
 
@@ -52,4 +52,25 @@ export const newProject = async (project: NewProjectType) => {
   }
 
   return (await response.json()) as NewProjectTypeResponse;
+};
+
+export const getProjectsEnvironments = async (projectId: string) => {
+  const cookie = (await headers()).get("cookie");
+
+  const response = await client.api.projects[":projectId"].environments.$get(
+    {
+      param: {
+        projectId: projectId,
+      },
+    },
+    {
+      headers: { cookie: cookie ?? "" },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch project environments!");
+  }
+
+  return await response.json();
 };
