@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { AppContext } from "../types/shared-context";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
-import { prisma, ZodSchemas, Prisma } from "@repo/db";
+import { prisma, ZodSchemas, Prisma, EnvironmentType } from "@repo/db";
 
 const ProjectSchema = ZodSchemas.ProjectSchema;
 
@@ -70,14 +70,43 @@ const app = new Hono<AppContext>()
 
       if (!user) return c.json({ error: "Unauthorized" }, 401);
 
-      const response = await prisma.project.create({
-        data: {
-          ...data,
-          userId: user.id,
-        },
-      });
+      try {
+        const response = await prisma.$transaction(async (tx) => {
+          const project = await tx.project.create({
+            data: {
+              ...data,
+              userId: user.id,
+            },
+          });
 
-      return c.json(response);
+          const environments = await Promise.all([
+            tx.environment.create({
+              data: {
+                type: EnvironmentType.production,
+                projectId: project.id,
+              },
+            }),
+            tx.environment.create({
+              data: {
+                type: EnvironmentType.development,
+                projectId: project.id,
+              },
+            }),
+          ]);
+
+          return {
+            ...project,
+            environments,
+          };
+        });
+
+        return c.json(response);
+      } catch (error) {
+        if (error instanceof Prisma.PrismaClientKnownRequestError) {
+          return c.json({ error: "Failed to create project" }, 500);
+        }
+        throw error;
+      }
     }
   )
   .put(

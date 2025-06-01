@@ -19,7 +19,8 @@ export default function EnvironmentSelect({ projectId }: EnvironmentSelect) {
   const { environments, selectedEnvironment, setSelectedEnvironment } =
     useEnvironmentSelection();
 
-  // Set project ID when component mounts
+  console.log(environments);
+
   useEffect(() => {
     useEnvironmentStore.getState().setProjectId(projectId);
   }, [projectId]);

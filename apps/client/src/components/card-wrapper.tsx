@@ -9,7 +9,7 @@ import { ReactNode } from "react";
 
 interface CardWrapperProps {
   header: string;
-  description?: string;
+  description?: string | null;
   children: ReactNode;
 }
 

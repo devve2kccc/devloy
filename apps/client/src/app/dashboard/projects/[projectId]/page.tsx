@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { getProjectsEnvironments } from "@/features/projects/actions/projects";
 import EnvironmentSelect from "@/features/projects/components/project-env-selector";
+import { ProjectServices } from "@/features/projects/components/project-services";
 import {
   dehydrate,
   HydrationBoundary,
@@ -30,7 +31,7 @@ export default async function Page({
         </div>
         <Separator />
 
-        {/* // services */}
+        <ProjectServices />
       </div>
     </HydrationBoundary>
   );

@@ -5,6 +5,8 @@ import Projects from "./projects";
 import { AppContext } from "../types/shared-context";
 import { logger } from "hono/logger";
 
+import Services from "./services";
+
 export const app = new Hono<AppContext>().basePath("/api");
 
 app.use(
@@ -37,7 +39,7 @@ app.use("*", async (c, next) => {
 
 app.on(["POST", "GET"], "/auth/*", (c) => auth.handler(c.req.raw));
 
-const router = app.route("/projects", Projects);
+const router = app.route("/projects", Projects).route("/services", Services);
 
 app.get("/me", async (c) => {
   const user = c.get("user");
