@@ -1,7 +1,7 @@
-import { hcWithType } from "@repo/api-client";
+import { hc } from "hono/client";
+import type { AppType } from "@/app/api/[[...route]]/route";
 
-
-export const client = hcWithType("http://localhost:4000", {
+export const client = hc<AppType>("http://localhost:3000", {
   init: {
     credentials: "include",
   },

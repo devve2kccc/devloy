@@ -1,5 +1,6 @@
 "use server";
 
+import { auth } from "@/lib/auth";
 import { client } from "@/lib/hc";
 import { headers } from "next/headers";
 
@@ -7,7 +8,11 @@ export const getProjectServices = async (
   projectId: string,
   environmentId: string
 ) => {
-  const cookie = (await headers()).get("cookie");
+  const session = await auth.api.getSession({ headers: await headers() });
+
+  if (!session) {
+    throw new Error("Unauthorized");
+  }
 
   const response = await client.api.services[":projectId"].environments[
     ":environmentId"
@@ -19,7 +24,7 @@ export const getProjectServices = async (
       },
     },
     {
-      headers: { cookie: cookie ?? "" },
+      headers: { cookie: (await headers()).get("cookie") ?? "" },
     }
   );
 
@@ -27,5 +32,11 @@ export const getProjectServices = async (
     throw new Error("Failed to fetch project services!");
   }
 
-  return await response.json();
+  const data = await response.json();
+
+  return data.map((service) => ({
+    ...service,
+    createdAt: new Date(service.createdAt),
+    updatedAt: new Date(service.updatedAt),
+  }));
 };

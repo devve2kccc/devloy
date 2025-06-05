@@ -29,7 +29,7 @@ export default async function Page({
           <EnvironmentSelect projectId={projectId} />
           <Button>Add Service</Button>
         </div>
-        <Separator />
+        <Separator className="mb-6" />
 
         <ProjectServices />
       </div>

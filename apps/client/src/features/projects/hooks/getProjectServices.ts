@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { InferResponseType } from "hono";
 import { client } from "../../../lib/hc";
-import { getProjects } from "../actions/projects";
 import { getProjectServices } from "../actions/services";
 import { useEnvironmentStore } from "../states/environment";
 

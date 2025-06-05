@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { AppContext } from "../types/shared-context";
+import { AppContext } from "@/app/api/[[...route]]/utils/shared-context";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
 import { prisma, ZodSchemas, Prisma, EnvironmentType } from "@repo/db";

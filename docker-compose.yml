@@ -1,0 +1,51 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres:17.5-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: devloy
+      POSTGRES_PASSWORD: devloydbtemp
+      POSTGRES_DB: devloy_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      DATABASE_URL: postgresql://devloy:devloydbtemp@postgres:5432/devloy_db
+    depends_on:
+      - postgres
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:4000/health || exit 1"]
+      interval: 5s
+      timeout: 2s
+      start_period: 10s
+      retries: 5
+
+  frontend:
+    build:
+      context: .
+      dockerfile: apps/client/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:4000
+    depends_on:
+      - backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/"]
+      interval: 5s
+      retries: 5
+    depends_on:
+      backend:
+        condition: service_healthy
+
+volumes:
+  pgdata:

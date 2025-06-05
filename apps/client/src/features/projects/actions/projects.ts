@@ -1,9 +1,9 @@
 "use server";
 import { headers } from "next/headers";
-import { client } from "../../../lib/hc";
+import { client } from "@/lib/hc";
 import { InferRequestType, InferResponseType } from "hono";
+import { auth } from "@/lib/auth";
 
-type ProjectType = InferResponseType<typeof client.api.projects.$get>;
 type NewProjectType = InferRequestType<
   typeof client.api.projects.$post
 >["json"];
@@ -13,12 +13,15 @@ type NewProjectTypeResponse = InferResponseType<
 >;
 
 export const getProjects = async () => {
-  const cookie = (await headers()).get("cookie");
+  const session = await auth.api.getSession({ headers: await headers() });
 
+  if (!session) {
+    throw new Error("Unauthorized");
+  }
   const response = await client.api.projects.$get(
     {},
     {
-      headers: { cookie: cookie ?? "" },
+      headers: { cookie: (await headers()).get("cookie") ?? "" },
     }
   );
 
@@ -38,12 +41,16 @@ export const getProjects = async () => {
 };
 
 export const newProject = async (project: NewProjectType) => {
-  const cookie = (await headers()).get("cookie");
+  const session = await auth.api.getSession({ headers: await headers() });
+
+  if (!session) {
+    throw new Error("Unauthorized");
+  }
 
   const response = await client.api.projects.$post(
     { json: project },
     {
-      headers: { cookie: cookie ?? "" },
+      headers: { cookie: (await headers()).get("cookie") ?? "" },
     }
   );
 
@@ -55,7 +62,11 @@ export const newProject = async (project: NewProjectType) => {
 };
 
 export const getProjectsEnvironments = async (projectId: string) => {
-  const cookie = (await headers()).get("cookie");
+  const session = await auth.api.getSession({ headers: await headers() });
+
+  if (!session) {
+    throw new Error("Unauthorized");
+  }
 
   const response = await client.api.projects[":projectId"].environments.$get(
     {
@@ -64,7 +75,7 @@ export const getProjectsEnvironments = async (projectId: string) => {
       },
     },
     {
-      headers: { cookie: cookie ?? "" },
+      headers: { cookie: (await headers()).get("cookie") ?? "" },
     }
   );
 

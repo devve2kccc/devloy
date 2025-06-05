@@ -1,4 +1,4 @@
-import { auth } from "../../client/src/lib/auth";
+import { auth } from "@/lib/auth";
 
 export type AppContext = {
   Variables: {

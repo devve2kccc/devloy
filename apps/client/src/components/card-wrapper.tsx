@@ -19,7 +19,7 @@ export default function CardWrapper({
   children,
 }: CardWrapperProps) {
   return (
-    <Card className="w-full transition-colors duration-300 bg-background hover:bg-primary">
+    <Card className="w-full transition-colors duration-300 bg-background hover:bg-primary/80">
       <CardHeader>
         <CardTitle className="text-2xl font-bold">{header}</CardTitle>
         <CardDescription>{description}</CardDescription>
