@@ -6,7 +6,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-import { useNewProject } from "../hooks/use-new-project";
+import { useNewProject } from "../states/use-new-project";
 import { NewProjectForm } from "./new-project-form";
 import { ProjectSchema } from "@repo/db/generated/zod";
 import { z } from "zod";
@@ -17,7 +17,7 @@ const ProjectType = ProjectSchema.pick({
   description: true,
 });
 
-export function NewProjectDialog() {
+export default function NewProjectDialog() {
   const { isOpen, onClose } = useNewProject();
   const projectMutation = useNewProjectMutation();
 

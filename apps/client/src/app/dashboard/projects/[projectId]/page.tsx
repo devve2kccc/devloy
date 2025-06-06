@@ -3,6 +3,7 @@ import { Separator } from "@/components/ui/separator";
 import { getProjectsEnvironments } from "@/features/projects/actions/projects";
 import EnvironmentSelect from "@/features/projects/components/project-env-selector";
 import { ProjectServices } from "@/features/projects/components/project-services";
+import ServicesHeader from "@/features/projects/components/service-header";
 import {
   dehydrate,
   HydrationBoundary,
@@ -25,10 +26,7 @@ export default async function Page({
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div>
-        <div className="flex justify-between items-center p-5">
-          <EnvironmentSelect projectId={projectId} />
-          <Button>Add Service</Button>
-        </div>
+        <ServicesHeader projectId={projectId} />
         <Separator className="mb-6" />
 
         <ProjectServices />

@@ -22,6 +22,7 @@
     "@radix-ui/react-slot": "^1.2.2",
     "@repo/api-client": "*",
     "@repo/db": "*",
+    "@repo/services": "*",
     "@tanstack/react-query": "^5.76.1",
     "better-auth": "^1.2.8",
     "class-variance-authority": "^0.7.1",

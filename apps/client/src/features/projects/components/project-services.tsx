@@ -1,5 +1,4 @@
 "use client";
-import CardWrapper from "@/components/card-wrapper";
 import { useGetProjectServices } from "../hooks/getProjectServices";
 import { ServiceCard } from "./service-card";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "../../../components/ui/button";
-import { useNewProject } from "../hooks/use-new-project";
+import { useNewProject } from "../states/use-new-project";
 
 export default function ProjectsHeader() {
   const { onOpen } = useNewProject();

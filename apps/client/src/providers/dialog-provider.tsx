@@ -1,6 +1,7 @@
 "use client";
 
-import { NewProjectDialog } from "@/features/projects/components/new-project-dialog";
+import NewProjectDialog from "@/features/projects/components/new-project-dialog";
+import NewServiceDialog from "@/features/projects/components/new-service-dialog";
 import { useMountedState } from "react-use";
 
 export const DialogProvider = () => {
@@ -13,6 +14,7 @@ export const DialogProvider = () => {
   return (
     <>
       <NewProjectDialog />
+      <NewServiceDialog />
     </>
   );
 };
