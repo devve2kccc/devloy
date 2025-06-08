@@ -143,32 +143,6 @@ const app = new Hono<AppContext>()
           ), // Use the internal port from template
         };
 
-        const dockerComposeYml = serviceTemplate.dockerCompose(finalConfig);
-
-        const newService = await prisma.service.create({
-          data: {
-            name: name,
-            environmentId: environmentId,
-            type: serviceTemplate.type as any, // Cast if your Prisma enum matches
-            templateId: templateId,
-            status: "PENDING", // Set initial status
-            config: finalConfig as any, // Store the final config
-          },
-        });
-
-        const deployResponse = await client.api.services.deploy.$post({
-          json: {
-            serviceId: newService.id,
-            containerName: finalConfig.containerName,
-            dockerImage: finalConfig.dockerImage,
-            exposedHostPort: finalConfig.port, // Use the host port from finalConfig
-            serviceInternalPort: finalConfig.serviceInternalPort,
-            environment: finalConfig.environment,
-            volumes: finalConfig.volumes,
-          },
-        });
-        // call
-
         return c.json({});
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
